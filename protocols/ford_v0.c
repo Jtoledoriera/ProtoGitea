@@ -637,6 +637,14 @@ SubGhzProtocolStatus
             break;
         }
 
+        //Update the PSF file, since we have overwritten the COUNTER and BUTTON
+        //This makes the file's nummers wrong, and fails tests. It wasnt causing a TX bug, but manual tests failed.
+        flipper_format_rewind(flipper_format);
+        uint32_t temp = calculated_crc;
+        flipper_format_insert_or_update_uint32(flipper_format, "CRC", &temp, 1);
+        temp = instance->bs;
+        flipper_format_insert_or_update_uint32(flipper_format, "BS", &temp, 1);
+
         instance->encoder.is_running = true;
 
         FURI_LOG_I(
