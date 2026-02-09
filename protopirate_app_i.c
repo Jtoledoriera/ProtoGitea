@@ -29,7 +29,7 @@ bool protopirate_set_preset(ProtoPirateApp* app, const char* preset) {
     } else if(!strcmp(preset, "FuriHalSubGhzPreset2FSKDev476Async")) {
         furi_string_set(app->txrx->preset->name, "FM476");
     } else if(!strcmp(preset, "FuriHalSubGhzPresetCustom")) {
-        furi_string_set(app->txrx->preset->name, "CUSTOM");
+        furi_string_set(app->txrx->preset->name, "Custom");
     } else {
         FURI_LOG_E(TAG, "Unknown preset");
         return false;
