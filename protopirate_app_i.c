@@ -29,7 +29,7 @@ bool protopirate_set_preset(ProtoPirateApp* app, const char* preset) {
     } else if(!strcmp(preset, "FuriHalSubGhzPreset2FSKDev476Async")) {
         furi_string_set(app->txrx->preset->name, "FM476");
     } else if(!strcmp(preset, "FuriHalSubGhzPresetCustom")) {
-        furi_string_set(app->txrx->preset->name, "Custom");
+        furi_string_set(app->txrx->preset->name, "CUSTOM");
     } else {
         FURI_LOG_E(TAG, "Unknown preset");
         return false;
@@ -54,7 +54,7 @@ const char* preset_name_to_short(const char* preset_name) {
     if(strcmp(preset_name, "FM238") == 0) return "FM238";
     if(strcmp(preset_name, "FM12K") == 0) return "FM12K";
     if(strcmp(preset_name, "FM476") == 0) return "FM476";
-    if(strcmp(preset_name, "FuriHalSubGhzPresetCustom") == 0) return "CUSTOM";
+    if(strcmp(preset_name, "FuriHalSubGhzPresetCustom") == 0) return "Custom";
 
     // Default fallback
     return "AM650";
