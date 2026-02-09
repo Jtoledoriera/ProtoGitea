@@ -19,6 +19,7 @@ struct FlipperFormat {
 
 RawFileReader* raw_file_reader_alloc(void) {
     RawFileReader* reader = malloc(sizeof(RawFileReader));
+    furi_check(reader);
     memset(reader, 0, sizeof(RawFileReader));
     return reader;
 }
