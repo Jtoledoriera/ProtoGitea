@@ -1007,8 +1007,12 @@ SubGhzProtocolStatus
             uint16_t key2_16bit = ((uint16_t)key2_bytes[6] << 8) | (uint16_t)key2_bytes[7];
             instance->key2_low = (uint32_t)key2_16bit & 0xFFFF;
             instance->key2_high = 0;
-            FURI_LOG_D(TAG, "Read Key2 from file: bytes[6]=0x%02X bytes[7]=0x%02X normalized=0x%04X", 
-                key2_bytes[6], key2_bytes[7], (unsigned int)key2_16bit);
+            FURI_LOG_D(
+                TAG,
+                "Read Key2 from file: bytes[6]=0x%02X bytes[7]=0x%02X normalized=0x%04X",
+                key2_bytes[6],
+                key2_bytes[7],
+                (unsigned int)key2_16bit);
         }
 
         uint32_t type = 0;
@@ -1169,9 +1173,8 @@ static void vag_encoder_build_type1(SubGhzProtocolEncoderVAG* instance) {
         block[6],
         block[7]);
 
-    instance->key1_high =
-        ((uint32_t)type_byte << 24) | ((uint32_t)block[0] << 16) | ((uint32_t)block[1] << 8) |
-        (uint32_t)block[2];
+    instance->key1_high = ((uint32_t)type_byte << 24) | ((uint32_t)block[0] << 16) |
+                          ((uint32_t)block[1] << 8) | (uint32_t)block[2];
     instance->key1_low = ((uint32_t)block[3] << 24) | ((uint32_t)block[4] << 16) |
                          ((uint32_t)block[5] << 8) | (uint32_t)block[6];
     uint32_t key2_upper = ((uint32_t)(block[7] & 0xFF) << 8);
@@ -1204,9 +1207,13 @@ static void vag_encoder_build_type1(SubGhzProtocolEncoderVAG* instance) {
 
     uint64_t key1 = ((uint64_t)instance->key1_high << 32) | instance->key1_low;
     uint64_t key1_inv = ~key1;
-    FURI_LOG_D(TAG, "Key1: %08lX%08lX -> inverted: %08lX%08lX", 
-        (unsigned long)(key1 >> 32), (unsigned long)(key1 & 0xFFFFFFFF),
-        (unsigned long)(key1_inv >> 32), (unsigned long)(key1_inv & 0xFFFFFFFF));
+    FURI_LOG_D(
+        TAG,
+        "Key1: %08lX%08lX -> inverted: %08lX%08lX",
+        (unsigned long)(key1 >> 32),
+        (unsigned long)(key1 & 0xFFFFFFFF),
+        (unsigned long)(key1_inv >> 32),
+        (unsigned long)(key1_inv & 0xFFFFFFFF));
 
     size_t key1_start = index;
     for(int i = 63; i >= 0; i--) {
@@ -1242,7 +1249,7 @@ static void vag_encoder_build_type1(SubGhzProtocolEncoderVAG* instance) {
 
     instance->size_upload = index;
     FURI_LOG_I(TAG, "Type1 upload built: %zu pulses (expected: 635)", index);
-    
+
     if(index != 635) {
         FURI_LOG_W(TAG, "WARNING: Pulse count %zu != expected 635!", index);
     }
@@ -1321,9 +1328,8 @@ static void vag_encoder_build_type2(SubGhzProtocolEncoderVAG* instance) {
         block[6],
         block[7]);
 
-    instance->key1_high =
-        ((uint32_t)type_byte << 24) | ((uint32_t)block[0] << 16) | ((uint32_t)block[1] << 8) |
-        (uint32_t)block[2];
+    instance->key1_high = ((uint32_t)type_byte << 24) | ((uint32_t)block[0] << 16) |
+                          ((uint32_t)block[1] << 8) | (uint32_t)block[2];
     instance->key1_low = ((uint32_t)block[3] << 24) | ((uint32_t)block[4] << 16) |
                          ((uint32_t)block[5] << 8) | (uint32_t)block[6];
     uint32_t key2_upper = ((uint32_t)(block[7] & 0xFF) << 8);
@@ -1356,9 +1362,13 @@ static void vag_encoder_build_type2(SubGhzProtocolEncoderVAG* instance) {
 
     uint64_t key1 = ((uint64_t)instance->key1_high << 32) | instance->key1_low;
     uint64_t key1_inv = ~key1;
-    FURI_LOG_D(TAG, "Key1: %08lX%08lX -> inverted: %08lX%08lX", 
-        (unsigned long)(key1 >> 32), (unsigned long)(key1 & 0xFFFFFFFF),
-        (unsigned long)(key1_inv >> 32), (unsigned long)(key1_inv & 0xFFFFFFFF));
+    FURI_LOG_D(
+        TAG,
+        "Key1: %08lX%08lX -> inverted: %08lX%08lX",
+        (unsigned long)(key1 >> 32),
+        (unsigned long)(key1 & 0xFFFFFFFF),
+        (unsigned long)(key1_inv >> 32),
+        (unsigned long)(key1_inv & 0xFFFFFFFF));
 
     size_t key1_start = index;
     for(int i = 63; i >= 0; i--) {
@@ -1461,9 +1471,8 @@ static void vag_encoder_build_type3_4(SubGhzProtocolEncoderVAG* instance) {
         block[6],
         block[7]);
 
-    instance->key1_high =
-        ((uint32_t)type_byte << 24) | ((uint32_t)block[0] << 16) | ((uint32_t)block[1] << 8) |
-        (uint32_t)block[2];
+    instance->key1_high = ((uint32_t)type_byte << 24) | ((uint32_t)block[0] << 16) |
+                          ((uint32_t)block[1] << 8) | (uint32_t)block[2];
     instance->key1_low = ((uint32_t)block[3] << 24) | ((uint32_t)block[4] << 16) |
                          ((uint32_t)block[5] << 8) | (uint32_t)block[6];
     uint32_t key2_upper = ((uint32_t)(block[7] & 0xFF) << 8);
@@ -1473,27 +1482,46 @@ static void vag_encoder_build_type3_4(SubGhzProtocolEncoderVAG* instance) {
 
     uint64_t key1 = ((uint64_t)instance->key1_high << 32) | instance->key1_low;
     uint16_t key2 = (uint16_t)(instance->key2_low & 0xFFFF);
-    FURI_LOG_D(TAG, "Key1: %08lX%08lX (NOT inverted for Type 3/4)", 
-        (unsigned long)(key1 >> 32), (unsigned long)(key1 & 0xFFFFFFFF));
+    FURI_LOG_D(
+        TAG,
+        "Key1: %08lX%08lX (NOT inverted for Type 3/4)",
+        (unsigned long)(key1 >> 32),
+        (unsigned long)(key1 & 0xFFFFFFFF));
     FURI_LOG_D(TAG, "Key2: %04X (NOT inverted for Type 3/4)", key2);
-    
+
     uint8_t key1_byte6 = (key1 >> 8) & 0xFF;
     uint8_t key1_byte7 = key1 & 0xFF;
-    FURI_LOG_D(TAG, "Key1 last 2 bytes: %02X %02X (bits: %d%d%d%d%d%d%d%d %d%d%d%d%d%d%d%d)",
-        key1_byte6, key1_byte7,
-        (key1_byte6>>7)&1, (key1_byte6>>6)&1, (key1_byte6>>5)&1, (key1_byte6>>4)&1,
-        (key1_byte6>>3)&1, (key1_byte6>>2)&1, (key1_byte6>>1)&1, (key1_byte6>>0)&1,
-        (key1_byte7>>7)&1, (key1_byte7>>6)&1, (key1_byte7>>5)&1, (key1_byte7>>4)&1,
-        (key1_byte7>>3)&1, (key1_byte7>>2)&1, (key1_byte7>>1)&1, (key1_byte7>>0)&1);
+    FURI_LOG_D(
+        TAG,
+        "Key1 last 2 bytes: %02X %02X (bits: %d%d%d%d%d%d%d%d %d%d%d%d%d%d%d%d)",
+        key1_byte6,
+        key1_byte7,
+        (key1_byte6 >> 7) & 1,
+        (key1_byte6 >> 6) & 1,
+        (key1_byte6 >> 5) & 1,
+        (key1_byte6 >> 4) & 1,
+        (key1_byte6 >> 3) & 1,
+        (key1_byte6 >> 2) & 1,
+        (key1_byte6 >> 1) & 1,
+        (key1_byte6 >> 0) & 1,
+        (key1_byte7 >> 7) & 1,
+        (key1_byte7 >> 6) & 1,
+        (key1_byte7 >> 5) & 1,
+        (key1_byte7 >> 4) & 1,
+        (key1_byte7 >> 3) & 1,
+        (key1_byte7 >> 2) & 1,
+        (key1_byte7 >> 1) & 1,
+        (key1_byte7 >> 0) & 1);
 
     for(int repeat = 0; repeat < 2; repeat++) {
         size_t repeat_start = index;
-        
+
         for(int i = 0; i < 45; i++) {
             upload[index++] = level_duration_make(true, 500);
             upload[index++] = level_duration_make(false, 500);
         }
-        FURI_LOG_D(TAG, "Repeat %d: Preamble %zu pulses (45 cycles)", repeat + 1, index - repeat_start);
+        FURI_LOG_D(
+            TAG, "Repeat %d: Preamble %zu pulses (45 cycles)", repeat + 1, index - repeat_start);
 
         upload[index++] = level_duration_make(true, 1000);
         upload[index++] = level_duration_make(false, 500);
@@ -1506,15 +1534,15 @@ static void vag_encoder_build_type3_4(SubGhzProtocolEncoderVAG* instance) {
         size_t key1_start = index;
         uint8_t consecutive_same = 0;
         bool prev_level = true;
-        
+
         for(int i = 63; i >= 0; i--) {
             bool bit = (key1 >> i) & 1;
             bool first_level = bit ? true : false;
-            
+
             if(first_level == prev_level) {
                 consecutive_same++;
             }
-            
+
             if(bit) {
                 upload[index++] = level_duration_make(true, 500);
                 upload[index++] = level_duration_make(false, 500);
@@ -1525,8 +1553,12 @@ static void vag_encoder_build_type3_4(SubGhzProtocolEncoderVAG* instance) {
                 prev_level = true;
             }
         }
-        FURI_LOG_D(TAG, "Repeat %d: Key1 %zu pulses (64 bits), %u double-width transitions", 
-                   repeat + 1, index - key1_start, consecutive_same);
+        FURI_LOG_D(
+            TAG,
+            "Repeat %d: Key1 %zu pulses (64 bits), %u double-width transitions",
+            repeat + 1,
+            index - key1_start,
+            consecutive_same);
 
         size_t key2_start = index;
         bool last_level = false;
@@ -1542,8 +1574,12 @@ static void vag_encoder_build_type3_4(SubGhzProtocolEncoderVAG* instance) {
                 last_level = true;
             }
         }
-        FURI_LOG_D(TAG, "Repeat %d: Key2 %zu pulses (16 bits), ends %s", 
-                   repeat + 1, index - key2_start, last_level ? "HIGH" : "LOW");
+        FURI_LOG_D(
+            TAG,
+            "Repeat %d: Key2 %zu pulses (16 bits), ends %s",
+            repeat + 1,
+            index - key2_start,
+            last_level ? "HIGH" : "LOW");
 
         if(!last_level) {
             upload[index++] = level_duration_make(false, 10000);
@@ -1552,13 +1588,13 @@ static void vag_encoder_build_type3_4(SubGhzProtocolEncoderVAG* instance) {
             upload[index++] = level_duration_make(false, 10000);
             FURI_LOG_D(TAG, "Repeat %d: Gap 10000us LOW (after HIGH)", repeat + 1);
         }
-        
+
         FURI_LOG_D(TAG, "Repeat %d: Total %zu pulses", repeat + 1, index - repeat_start);
     }
 
     instance->size_upload = index;
     FURI_LOG_I(TAG, "Type%d upload built: %zu pulses (expected: 518)", instance->vag_type, index);
-    
+
     if(index != 518) {
         FURI_LOG_W(TAG, "WARNING: Pulse count %zu != expected 518!", index);
     }
@@ -1627,7 +1663,7 @@ void subghz_protocol_decoder_vag_get_string(void* context, FuriString* output) {
     }
 }
 
-#define VAG_ENCODER_UPLOAD_MAX_SIZE 2560
+#define VAG_ENCODER_UPLOAD_MAX_SIZE 680
 
 void* subghz_protocol_encoder_vag_alloc(SubGhzEnvironment* environment) {
     UNUSED(environment);
@@ -1753,13 +1789,13 @@ SubGhzProtocolStatus
         FURI_LOG_I(TAG, "Loaded Type: %d", instance->vag_type);
 
         uint32_t file_serial = 0, file_cnt = 0, file_btn = 0, file_key_idx = 0xFF;
-        
+
         flipper_format_rewind(flipper_format);
         bool has_serial = flipper_format_read_uint32(flipper_format, "Serial", &file_serial, 1);
-        
+
         flipper_format_rewind(flipper_format);
         bool has_cnt = flipper_format_read_uint32(flipper_format, "Cnt", &file_cnt, 1);
-        
+
         flipper_format_rewind(flipper_format);
         bool has_btn = flipper_format_read_uint32(flipper_format, "Btn", &file_btn, 1);
 
@@ -1799,7 +1835,8 @@ SubGhzProtocolStatus
             instance->key_idx);
 
         if(instance->key_idx == 0xFF) {
-            FURI_LOG_I(TAG, "KeyIdx not found in file, decoding original signal to find correct key...");
+            FURI_LOG_I(
+                TAG, "KeyIdx not found in file, decoding original signal to find correct key...");
 
             SubGhzProtocolDecoderVAG decoder;
             memset(&decoder, 0, sizeof(decoder));
@@ -1815,7 +1852,7 @@ SubGhzProtocolStatus
             if(decoder.decrypted) {
                 instance->key_idx = decoder.key_idx;
                 FURI_LOG_I(TAG, "Decoded key_idx=%d from original signal", instance->key_idx);
-                
+
                 if(instance->serial == 0 && instance->cnt == 0) {
                     instance->serial = decoder.serial;
                     instance->cnt = decoder.cnt;
@@ -1828,7 +1865,9 @@ SubGhzProtocolStatus
                         instance->btn);
                 }
             } else {
-                FURI_LOG_W(TAG, "Could not decode original signal - check if keys are loaded and Type is correct");
+                FURI_LOG_W(
+                    TAG,
+                    "Could not decode original signal - check if keys are loaded and Type is correct");
             }
         }
 
@@ -1842,7 +1881,9 @@ SubGhzProtocolStatus
 
         uint8_t type_byte = (uint8_t)(instance->key1_high >> 24);
         if(instance->vag_type == 1 && type_byte == 0x00) {
-            FURI_LOG_I(TAG, "Detected Passat signal (type_byte 0x00), converting type 1 -> type 2 to fix key2 issue");
+            FURI_LOG_I(
+                TAG,
+                "Detected Passat signal (type_byte 0x00), converting type 1 -> type 2 to fix key2 issue");
             instance->vag_type = 2;
         }
 
