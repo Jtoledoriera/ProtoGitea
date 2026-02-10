@@ -74,6 +74,7 @@ void protopirate_view_receiver_info_exit(void* context) {
 
 ProtoPirateReceiverInfo* protopirate_view_receiver_info_alloc() {
     ProtoPirateReceiverInfo* receiver_info = malloc(sizeof(ProtoPirateReceiverInfo));
+    furi_check(receiver_info);
 
     receiver_info->view = view_alloc();
     view_allocate_model(
