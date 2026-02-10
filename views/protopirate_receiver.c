@@ -44,8 +44,8 @@ typedef struct {
 } ProtoPirateReceiverModel;
 
 static void protopirate_view_rssi_draw(Canvas* canvas, ProtoPirateReceiverModel* model) {
+    furi_check(model);
     uint8_t u_rssi = 0;
-    UNUSED(model);
 
     if(model->rssi >= SUBGHZ_RAW_THRESHOLD_MIN) {
         u_rssi = (uint8_t)(model->rssi - SUBGHZ_RAW_THRESHOLD_MIN);
