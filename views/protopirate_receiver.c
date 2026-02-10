@@ -469,34 +469,36 @@ bool protopirate_view_receiver_input(InputEvent* event, void* context) {
             consumed = true;
             break;
         case InputKeyOk:
+            bool do_ok_cb = false;
+            bool do_toggle = false;
+            /* Read-only: do not redraw */
             with_view_model(
                 receiver->view,
                 ProtoPirateReceiverModel * model,
                 {
                     size_t item_count =
                         ProtoPirateReceiverMenuItemArray_size(model->history_item_arr);
+
                     if(item_count > 0) {
-                        if(receiver->callback) {
-                            receiver->callback(
-                                ProtoPirateCustomEventViewReceiverOK, receiver->context);
-                        }
-                    } else {
-                        if(event->type == InputTypeLong) {
-                            with_view_model(
-                                receiver->view,
-                                ProtoPirateReceiverModel * model,
-                                { model->dolphin_view = !model->dolphin_view; },
-                                true);
-                        }
+                        do_ok_cb = true;
+                    } else if(event->type == InputTypeLong) {
+                        do_toggle = true;
                     }
                 },
                 false);
-            consumed = true;
-            break;
-        case InputKeyBack:
-            if(receiver->callback) {
-                receiver->callback(ProtoPirateCustomEventViewReceiverBack, receiver->context);
+            /* Only redraw if we actually changed dolphin_view */
+            if(do_toggle) {
+                with_view_model(
+                    receiver->view,
+                    ProtoPirateReceiverModel * model,
+                    { model->dolphin_view = !model->dolphin_view; },
+                    true);
             }
+
+            if(do_ok_cb && receiver->callback) {
+                receiver->callback(ProtoPirateCustomEventViewReceiverOK, receiver->context);
+            }
+
             consumed = true;
             break;
         default:
