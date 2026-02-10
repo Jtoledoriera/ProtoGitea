@@ -140,7 +140,8 @@ void protopirate_view_receiver_add_item_to_menu(
         {
             ProtoPirateReceiverMenuItem* item_menu =
                 ProtoPirateReceiverMenuItemArray_push_raw(model->history_item_arr);
-            item_menu->item_str = furi_string_alloc_set(name);
+            const char* safe_name = name ? name : "EMPTY_NAME";
+            item_menu->item_str = furi_string_alloc_set(safe_name);
             item_menu->type = type;
         },
         true);
