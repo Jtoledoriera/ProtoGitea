@@ -425,6 +425,8 @@ void protopirate_scene_sub_decode_on_enter(void* context) {
         app->txrx->history = protopirate_history_alloc();
         if(!app->txrx->history) {
             FURI_LOG_E(TAG, "Failed to allocate history!");
+            free(g_decode_ctx);
+            g_decode_ctx = NULL;
             return;
         }
     }
